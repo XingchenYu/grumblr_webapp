@@ -1,0 +1,104 @@
+{% extends "grumblr/base_user.html" %}
+
+{% block navbar %}
+    {% if user.username %}
+        <form class="navbar-form navbar-right" action="{% url 'logout' %}" method="get">
+            <div class="form-group">
+              <p class="float-left hiuser">Hi {{user.username}}!</p>
+              <a class="my-account" href="{% url 'account' %}">My account</a>
+              <input class="btn btn-default logout-button" type='submit' value="LOG OUT">
+            </div>
+        </form>
+    {% else %}
+            <div class="form-group navbar-form navbar-right">
+              <a href="{% url 'register' %}">
+                <input class="btn btn-default signup-button" type='submit' value="SIGN UP">
+              </a>
+            </div>
+              <a class="forgetpassword" href="{% url 'forgetpassword' %}">Forget password?</a>
+        <form class="navbar-form navbar-right" action="{% url 'home' %}" method="post">
+            <div class="form-group">
+              {{ form.username }}
+            </div>
+            <div class="form-group">
+              {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-success">SIGN IN</button>
+            {% csrf_token %}
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block navcell %}
+{% if user.username %}
+<ul class="nav nav-pills nav-justified" >
+    <li><a href="{% url 'account' %}">Home</a></li>
+    <li class="active"><a href="{% url 'home1' %}">Blog</a></li>
+    <li><a href="{% url 'followstream' %}">FollowStream</a></li>
+    <li><a id="qu" href="#">Question</a></li>
+</ul>
+{% else %}
+<ul class="nav nav-pills nav-justified" >
+    <li><a href="#">Home</a></li>
+    <li class="active"><a href="/">Blog</a></li>
+    <li><a href="#">FollowStream</a></li>
+    <li><a href="#">Question</a></li>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block mainbody %}
+    <div class="row relative-downmove">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2">
+          <img class="round-border2" src="../../static/images/cmu.jpg" alt="CMU" height="150" width="150"/>
+        </div>
+        <div class="col-md-5 upmove1">
+            <h4 class="title-post">Record your daily life! Interact with people from all the world!</h4>
+
+            <div class="content-post float-left round-border transparent2">
+                <div class="content-postimg float-left">
+                    {% if user.username %}
+                    <img class="downmove1 round-border float-left" src="{% url 'photo' user.id %}"
+                         alt="{{ user.first_name }} {{ user.last_name }}" height="80" width="80"/>
+                    {% else %}
+                    <img class="downmove1 round-border2 float-left" src="../../static/images/cmu.jpg" alt="photo" height="80" width="80"/>
+                    {% endif %}
+                </div>
+                <div class="content-record float-left">
+                    Post Number: <span class="red-color">{{blogs.count}}</span>
+                    <p class="time_color" id="info1"></p>
+                </div>
+                <div class="content-postbutton float-right">
+                <a class="btn btn-default round-border post-button" href="{% url 'post' %}" role="button">POST</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row relative-downmove">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8">
+        <div id="global-stream" class="scrollbar round-border transparent">
+{#        {% for blog in blogs %}#}
+{#            <div class="content float-left round-border">#}
+{#                <div class="content-writer float-left">#}
+{#                    <img class="float-left round-border" src="{% url 'photo' blog.user.id %}"#}
+{#                         alt="{{ blog.user.first_name }} {{ blog.user.last_name }}" height="80" width="80"/>#}
+{#                    <a class="stream-username" href="{% url 'profile' blog.user.id %}" >{{blog.user.username}}</a>#}
+{#                </div>#}
+{#                <div class="content-text float-left">#}
+{#                    <a class="stream-content changerow" href="{% url 'blog' blog.id %}">{{blog.content}}</a>#}
+{#                </div>#}
+{#                <div class="content-time float-right">#}
+{#                <p class="steam-posttime">{{blog.pub_date}}</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+        </div>
+      </div>
+    </div>
+{% endblock %}
+

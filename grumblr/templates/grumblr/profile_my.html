@@ -1,0 +1,97 @@
+{% extends "grumblr/profile.html" %}
+
+{% block mainbody %}
+    <div class="row relative-downmove">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="content-registration float-left">
+                <h2 class="profile-title"><span class="pagetitle-firstletter">P</span><span class="pagetitle-otherletters">ROFILE</span></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-6">
+            <div class="content-registration float-left">
+                <img class="round-border downmove1 cut-off" src="../../static/images/cutoff.png" alt="cutoff" height="10" width="600"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row movetop-text">
+        <div class="col-md-2">
+        </div>
+
+        <div class="col-md-5 upmove1">
+            <div class="content-post2 float-left movetop-text3">
+                <div class="content-record2 float-left">
+                    {{user.username}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 flow-left movetop-text3">
+          <div class="content-postimg2 float-left">
+            {% if my_user.photo %}
+            <img class="relative-downmove profile-photo round-border" src="{% url 'photo' user.id %}"
+                 alt="{{ user.first_name }} {{ user.last_name }}" height="100" width="100"/>
+            {% endif %}
+          </div>
+        </div>
+    </div>
+
+    <div class="row movetop-text3">
+        <div class="col-md-3">
+        </div>
+
+        <div class="col-md-5 upmove1">
+            <p class="profile-info changerow" >Firstname: {{user.first_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lastname: {{user.last_name}}<br><br>
+            Email: {{user.email}}<br><br>
+            Age: {{my_user.age}}<br><br>
+            Bio: {{my_user.bio}}<br><br>
+            Post: {{user.blog_set.count}}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="row movetop-text3">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-5 upmove1">
+            <a class="btn btn-default edit-button" href="{% url 'edit' %}" role="button">Edit</a>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8">
+        <div class="scrollbar round-border transparent">
+
+            {% for his in blog_my %}
+            <div class="content-new float-left round-border">
+                <div class="content-writer float-left">
+                    {% if my_user.photo %}
+                    <img class="float-left round-border" src="{% url 'photo' user.id %}"
+                         alt="{{ user.first_name }} {{ user.last_name }}" height="80" width="80"/>
+                    {% endif %}
+                    <a class="stream-username" href="{% url 'account' %}">{{user.username}}</a>
+                </div>
+                <div class="content-text float-left">
+                    <p class="stream-content changerow">{{his.content}}</p>
+                </div>
+                <div class="content-time float-right steam-posttime">
+                <p>{{his.pub_date}}</p>
+                <div class="content-followbutton movetop-text6">
+                     <a class="btn btn-default round-border follow-button" href="{% url 'blog_delete' his.id %}">Delete</a>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "grumblr/profile.html" %}
+
+{% block navcell %}
+<ul class="nav nav-pills nav-justified" >
+    <li><a href="{% url 'account' %}">Home</a></li>
+    <li><a href="{% url 'home1' %}">Blog</a></li>
+    <li class="active"><a href="{% url 'followstream' %}">FollowStream</a></li>
+    <li><a id="qu" href="#">Question</a></li>
+</ul>
+{% endblock %}
+
+{% block mainbody %}
+    <div class="row relative-downmove">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div class="content-registration float-left">
+                <h2 class="follow-title"><span class="pagetitle-firstletter">F</span><span class="pagetitle-otherletters">OLLOW STREAM</span></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-6">
+            <div class="content-registration float-left">
+                <img class="round-border downmove1 cut-off" src="../../static/images/cutoff.png" alt="cutoff" height="10" width="600"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-4 upmove1">
+            <div class="content-post2 float-left movetop-text3">
+                <div class="follow-name movetop-text4 float-left">
+                    {{user.username}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="content-post2 float-left movetop-text3">
+                <div class="follow-count movetop-text4 float-left">
+                    Following: {{follow_list.count}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row movetop-text5">
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-8">
+        <div class="scrollbar round-border transparent">
+        {% for blog in stream %}
+            <div>
+            <div class="content float-left round-border">
+                <div class="content-writer float-left">
+
+                    <img class="float-left round-border" src="{% url 'photo' blog.user.id %}"
+                         alt="{{ blog.user.first_name }} {{ blog.user.last_name }}" height="80" width="80"/>
+
+                    <a class="stream-username" href="{% url 'profile' blog.user.id %}" >{{blog.user.username}}</a>
+                </div>
+                <div class="content-text float-left">
+                    <p class="stream-content changerow">{{blog.content}}</p>
+                </div>
+                <div class="content-time float-right">
+                    <p class="steam-posttime">{{blog.pub_date}}</p>
+                    <button id='comment-toggle{{ blog.id }}' class='btn btn-default'>Comment</button>
+                </div>
+            </div>
+
+            <div hidden id='comment-area'>
+                <div class='form-group comment-btn'>
+                    <div class='col-sm-8'>
+                        <input id='commentFieldf_{{ blog.id }}' class='moveright-comment form-control' placeholder='Input comment...' type='text'>
+                    </div>
+                    <div class='col-sm-2'>
+                        <button id='commentbtnf' btn-id="{{ blog.id }}" class="float-left btn btn-default moveleft-text2 movetop-comment comment-button">Comment</button>
+                    </div>
+                </div>
+                {% for comment in blog.comment_set.all %}
+                    <div class="content2 float-left round-border moveright-comment3">
+                    <div class="content-writer2 float-left">
+                        <img  class="float-left round-border" src="{% url 'photo' comment.com_user.id %}" alt="photo" height="50" width="50"/>
+
+                        <a class="comment-user" href="{% url 'profile' comment.com_user.id %}">{{comment.com_user.username}}</a>
+                    </div>
+                    <div class="content-text2 float-left comment-comment">
+                        <p>{{comment.text}}</p>
+                    </div>
+                    <div class="content-time2 float-right movetop-text3 comment-time">
+                    <p>{{comment.com_time}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}
